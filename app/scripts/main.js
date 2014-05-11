@@ -1,4 +1,4 @@
-var width = 960,
+var width = 500,
     height = 500;
 
 var random=function(max) {
@@ -6,26 +6,21 @@ var random=function(max) {
 };
 
 var data = [];
-for(var i = 0; i<20; i++) {
-    data.push(random(30));
+for(var i = 0; i<300; i++) {
+    data.push({x:random(100), y:random(100), r:random(15)});
 }
 
 var scale = d3.scale.linear()
-    .domain([0, d3.max(data)])
-    .range([0, 500]);
-
-var content = d3.select("body")
-    .select("div#content");
-
-var bars = content.selectAll("div")
-    .data(data)
+    .domain([0,100])
+    .range([1, width])
     ;
 
-    bars.enter()
-        .append("div")
-        .text(function(d){return d;})
-        .style("background-color", "red")
-        .style("width", function(d){return scale(d) + "px";})
-    ;
+var svg = d3.select("#content").append("svg");
+var circles = svg.selectAll("circle").data(data);
 
-    bars.exit().remove();
+circles.enter()
+    .append("circle")
+    .attr("cx", function(d) {return scale(d.x);})
+    .attr("cy", function(d) {return scale(d.y);})
+    .attr("r", function(d) {return d.r;})
+;
