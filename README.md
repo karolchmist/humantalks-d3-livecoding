@@ -1,12 +1,15 @@
 humantalks-d3-livecoding
 ========================
 
-# Created with npm
+Sample webapp demonstrating D3.js framework in 10 minutes of live coding. Master branch contains operations on html, svg branch contains small demo of SVG.
 
-npm install -g yo
-npm install -g generator-webapp
-yo webapp
-bower install --save d3
-grunt bowerInstall // why not automatically??
-grunt serve
+## Created with npm
+by executing following commands (no need if just cloning the repository):
+
+npm install -g yo  
+npm install -g generator-webapp  
+yo webapp  
+bower install --save d3  
+grunt bowerInstall  
+grunt serve  
 
