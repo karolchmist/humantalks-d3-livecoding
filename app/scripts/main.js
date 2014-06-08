@@ -6,26 +6,44 @@ var random=function(max) {
 };
 
 var data = [];
-for(var i = 0; i<20; i++) {
-    data.push(random(30));
+
+fillData();
+
+var svg = d3.select('#content').append('svg');
+
+var circles = svg.selectAll('circle').data(data);
+
+circles
+    .enter()
+    .append("circle")
+    .attr('r', function(d){return d.r;})
+    .attr('cx', function(d){return d.cx;})
+    .attr('cy', function(d){return d.cy;})
+    .attr('fill', function() { return "rgb("+ random(255)+","+ random(255)+","+ random(255)+")";})
+;
+
+
+function fillData () {
+    data = [];
+    for(var i = 0; i < 200; i++) {
+        data.push({
+            r:random(9)+1,
+            cy:random(height),
+            cx:random(width)
+        });
+    }
 }
 
-var scale = d3.scale.linear()
-    .domain([0, d3.max(data)])
-    .range([0, 500]);
+setInterval(function() {
+    console.log("refreshing");
 
-var content = d3.select("body")
-    .select("div#content");
+    fillData();
 
-var bars = content.selectAll("div")
-    .data(data)
+    circles.data(data)
+        .transition()
+        .attr('r', function(d){return d.r;})
+        .attr('cx', function(d){return d.cx;})
+        .attr('cy', function(d){return d.cy;})
     ;
 
-    bars.enter()
-        .append("div")
-        .text(function(d){return d;})
-        .style("background-color", "red")
-        .style("width", function(d){return scale(d) + "px";})
-    ;
-
-    bars.exit().remove();
+}, 1000);
