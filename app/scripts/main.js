@@ -1,30 +1,17 @@
 var width = 960,
     height = 500;
 
-var random=function(max) {
+var random = function(max) {
     return Math.round(max * Math.random());
 };
 
-var data = [];
-
-fillData();
-
-var svg = d3.select('#content').append('svg');
-
-var circles = svg.selectAll('circle').data(data);
-
-circles
-    .enter()
-    .append("circle")
-    .attr('r', function(d){return d.r;})
-    .attr('cx', function(d){return d.cx;})
-    .attr('cy', function(d){return d.cy;})
-    .attr('fill', function() { return "rgb("+ random(255)+","+ random(255)+","+ random(255)+")";})
-;
+var randomColor = function() {
+    return random(250);
+};
 
 
-function fillData () {
-    data = [];
+var createData = function() {
+    var data = [];
     for(var i = 0; i < 200; i++) {
         data.push({
             r:random(9)+1,
@@ -32,18 +19,33 @@ function fillData () {
             cx:random(width)
         });
     }
-}
+    return data;
+};
 
-setInterval(function() {
-    console.log("refreshing");
+var svg = d3.select("#content").append("svg");
 
-    fillData();
+var circles = svg.selectAll("circle").data(createData());
 
-    circles.data(data)
-        .transition()
-        .attr('r', function(d){return d.r;})
-        .attr('cx', function(d){return d.cx;})
-        .attr('cy', function(d){return d.cy;})
-    ;
+circles
+    .enter()
+    .append("circle")
+    .attr("r", function(d) {return d.r + "px";})
+    .attr("cx", function(d) {return d.cx;})
+    .attr("cy", function(d) {return d.cy;})
+    .attr("fill", function() {return "rgb("+randomColor()+","+randomColor()+","+randomColor()+")";})
+;
 
-}, 1000);
+setInterval(
+    function() {
+        console.log("refreshing");
+
+        circles
+            .data(createData())
+            .transition()
+            .attr("r", function(d) {return d.r + "px";})
+            .attr("cx", function(d) {return d.cx;})
+            .attr("cy", function(d) {return d.cy;})
+        ;
+    },
+    1000
+);
