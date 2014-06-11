@@ -2,8 +2,6 @@
   "name": "d3demo",
   "private": true,
   "dependencies": {
-    "jquery": "~1.11.0",
-    "d3": "~3.4.6"
   },
   "devDependencies": {}
 }
